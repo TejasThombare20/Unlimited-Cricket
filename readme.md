@@ -28,7 +28,10 @@ A scalable service that fetches and stores the latest YouTube videos based on se
 - ✅ Paginated API responses
 
 ### Dashboard Features
-![Search Interface](screenshots/search.png)
+![Search Interface](![image](https://github.com/user-attachments/assets/d90d4069-4a4d-490e-b2b0-38163b25865e)
+)
+![image](https://github.com/user-attachments/assets/e737129d-c51a-4b75-b98e-f260c70b9a8c)
+
 - Real-time video updates
 - Responsive design
 - Infinite Scrolling 
@@ -51,22 +54,13 @@ A scalable service that fetches and stores the latest YouTube videos based on se
 ## Architecture
 
 ### Data Flow Architecture
+![image](https://github.com/user-attachments/assets/f4fa4b41-5a30-411c-a881-38d6608f8d35)
+
 
 
 ### Rate Limiting Architecture
-```mermaid
-flowchart TD
-    A[Request] --> B[Extract IP]
-    B --> C{Check Rate Limiter}
-    C -->|Limit Not Exceeded| D[Process Request]
-    C -->|Limit Exceeded| E[429 Too Many Requests]
-    D --> F[Return Response]
-    
-    subgraph "Rate Limiter Details"
-    G[Token Bucket] -->|Refill Rate| H[5 tokens/second]
-    G -->|Burst Size| I[10 tokens max]
-    end
-```
+![image](https://github.com/user-attachments/assets/d5cf1b4d-258e-4747-a694-46e785c4b45b)
+
 
 ## Project Structure
 ```
