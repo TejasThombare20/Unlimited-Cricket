@@ -11,6 +11,7 @@ import (
 	"TejasThombare20/fampay/service"
 	"context"
 	"log"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -20,9 +21,13 @@ import (
 
 func main() {
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file", err)
+	enviroment := os.Getenv("GO_ENVIROMENT")
+
+	if enviroment != "production" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file", err)
+		}
 	}
 
 	cfg, err := config.Load()
