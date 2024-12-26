@@ -1,8 +1,9 @@
 package config
 
 import (
-	"fmt"
+	"log"
 	"os"
+	"strconv"
 )
 
 type Config struct {
@@ -15,9 +16,35 @@ type Config struct {
 	}
 	SearchQuery string
 	DatabaseURL string
+	RedisURL    string
+	FetchTime   int
+	RPS         int
+	BurstTime   int
 }
 
 func Load() (*Config, error) {
+
+	fetchtime, err := strconv.Atoi(os.Getenv("FETCH_TIME"))
+
+	if err != nil {
+		log.Printf("Invalid FETCH_TIME: %v", err)
+		fetchtime = 5
+	}
+
+	fetchRPS, err := strconv.Atoi(os.Getenv("RPS"))
+
+	if err != nil {
+		log.Printf("Invalid FETCH_TIME: %v", err)
+		fetchRPS = 5
+	}
+
+	fetchBurstTime, err := strconv.Atoi(os.Getenv("BURST_TIME"))
+
+	if err != nil {
+		log.Printf("Invalid FETCH_TIME: %v", err)
+		fetchBurstTime = 10
+	}
+
 	return &Config{
 		YoutubeAPIKeys: struct {
 			Key1 string
@@ -33,13 +60,10 @@ func Load() (*Config, error) {
 			Key5: os.Getenv("YOUTUBE_API_KEY_5"),
 		},
 		SearchQuery: "cricket",
-		DatabaseURL: fmt.Sprintf(
-			"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-			os.Getenv("DB_HOST"),
-			os.Getenv("DB_PORT"),
-			os.Getenv("DB_USER"),
-			os.Getenv("DB_PASSWORD"),
-			os.Getenv("DB_NAME"),
-		),
+		DatabaseURL: os.Getenv("DATABASE_URL"),
+		RedisURL:    os.Getenv("REDIS_URL"),
+		FetchTime:   fetchtime,
+		RPS:         fetchRPS,
+		BurstTime:   fetchBurstTime,
 	}, nil
 }

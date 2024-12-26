@@ -1,6 +1,7 @@
 package service
 
 import (
+	"TejasThombare20/fampay/config"
 	"context"
 	"log"
 	"time"
@@ -8,10 +9,10 @@ import (
 
 var SearchQuery = "cricket"
 
-func (s *YoutubeService) StartBackgroundWorker(ctx context.Context) {
+func (s *YoutubeService) StartBackgroundWorker(ctx context.Context, cfg *config.Config) {
 
 	log.Println("background data fectcing....")
-	ticker := time.NewTicker(5 * time.Minute)
+	ticker := time.NewTicker(time.Duration(cfg.FetchTime) * time.Minute)
 	go func() {
 		for {
 			select {
@@ -19,7 +20,7 @@ func (s *YoutubeService) StartBackgroundWorker(ctx context.Context) {
 				ticker.Stop()
 				return
 			case <-ticker.C:
-				if err := s.FetchAndStoreVideos(SearchQuery); err != nil {
+				if err := s.FetchAndStoreVideos(ctx, SearchQuery, cfg); err != nil {
 					log.Printf("Error fetching videos: %v", err)
 				}
 			}

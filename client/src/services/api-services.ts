@@ -20,6 +20,7 @@ class ApiHandler {
       baseURL: BASE_URL,
       headers: DEFAULT_HEADERS,
     });
+
   }
 
   private async request<T>(
@@ -29,7 +30,6 @@ class ApiHandler {
     config?: AxiosRequestConfig
   ): Promise<T> {
     try {
-
       const response: AxiosResponse<T> = await this.axiosInstance.request({
         method,
         url,
@@ -38,7 +38,6 @@ class ApiHandler {
       });
       return response.data;
     } catch (error) {
-      console.error("API request failed:", error);
       throw error;
     }
   }

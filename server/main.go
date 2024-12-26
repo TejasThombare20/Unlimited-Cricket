@@ -1,9 +1,11 @@
 package main
 
 import (
+	"TejasThombare20/fampay/cache"
 	"TejasThombare20/fampay/client"
 	"TejasThombare20/fampay/config"
 	"TejasThombare20/fampay/controller"
+	"TejasThombare20/fampay/middleware"
 	"TejasThombare20/fampay/repository"
 	"TejasThombare20/fampay/route"
 	"TejasThombare20/fampay/service"
@@ -13,6 +15,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"golang.org/x/time/rate"
 )
 
 func main() {
@@ -33,24 +36,33 @@ func main() {
 		log.Fatalf("Failed to create YouTube client: %v", err)
 	}
 
-	db, err := config.InitDB()
+	db, err := config.InitDB(cfg.DatabaseURL)
 	if err != nil {
-		log.Fatal("Error while connecting with database", err)
+		log.Fatal("Error while connecting with database : ", err)
 	}
 	defer db.Close()
+
 	repo := repository.NewVideoRepository(db)
 
-	ytService := service.NewYoutubeService(ytClient, repo)
+	videoCache, err := cache.NewVideoCache(cfg.RedisURL, cfg)
+	if err != nil {
+		log.Fatalf("Failed to connect to Redis: %v", err)
+	}
+
+	ytService := service.NewYoutubeService(ytClient, repo, videoCache)
 
 	ytController := controller.NewVideoController(ytService)
 
 	// Start background worker
 	ctx := context.Background()
-	ytService.StartBackgroundWorker(ctx)
+	ytService.StartBackgroundWorker(ctx, cfg)
+
+	rateLimiter := middleware.NewIPRateLimiter(rate.Limit(cfg.RPS), cfg.BurstTime)
 
 	router := gin.Default()
 
 	router.Use(cors.Default())
+	router.Use(rateLimiter.RateLimit())
 
 	route.SetupRoutes(router, ytController)
 	router.Run(":8080")

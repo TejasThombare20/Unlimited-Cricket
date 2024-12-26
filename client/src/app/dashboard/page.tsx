@@ -36,7 +36,7 @@ const page = () => {
       setHasMore(response.data.length === 20);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setError(error.response?.data?.message || "Failed to fetch videos");
+        setError(error?.response?.data?.message || "Failed to fetch videos");
       } else {
         setError("An unexpected error occurred");
       }

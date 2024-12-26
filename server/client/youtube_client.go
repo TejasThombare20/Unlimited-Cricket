@@ -1,6 +1,7 @@
 package client
 
 import (
+	"TejasThombare20/fampay/config"
 	"context"
 	"errors"
 	"fmt"
@@ -126,13 +127,13 @@ func (c *YoutubeClient) rotateKey() error {
 	return nil
 }
 
-func (c *YoutubeClient) SearchVideos(query string) ([]*youtube.SearchResult, error) {
+func (c *YoutubeClient) SearchVideos(query string, cfg *config.Config) ([]*youtube.SearchResult, error) {
 	log.Println("api key", c.currentKey)
 	call := c.service.Search.List([]string{"id", "snippet"}).
 		Q(query).
 		Type("video").
 		Order("date").
-		PublishedAfter(time.Now().Add(-5 * time.Minute).Format(time.RFC3339)).
+		PublishedAfter(time.Now().Add(-time.Duration(cfg.FetchTime) * time.Minute).Format(time.RFC3339)).
 		MaxResults(50)
 
 	response, err := call.Do()
@@ -148,7 +149,7 @@ func (c *YoutubeClient) SearchVideos(query string) ([]*youtube.SearchResult, err
 			}
 			// Retry the search with new key
 			log.Printf("Retrying with new key: %s", c.currentKey)
-			return c.SearchVideos(query)
+			return c.SearchVideos(query, cfg)
 		}
 		return nil, err
 	}
