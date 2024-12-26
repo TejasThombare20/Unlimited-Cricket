@@ -2,7 +2,7 @@
 
 A scalable service that fetches and stores the latest YouTube videos based on search queries, featuring real-time updates and a modern dashboard interface.
 
-![image](https://github.com/user-attachments/assets/3635e517-dcdb-419d-8bfe-497e87a9297c)
+![image](https://github.com/user-attachments/assets/d3db2d26-96a0-49b6-9137-d6400a8b94e6)
 
 
 ## Live Demo
