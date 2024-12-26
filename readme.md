@@ -2,7 +2,8 @@
 
 A scalable service that fetches and stores the latest YouTube videos based on search queries, featuring real-time updates and a modern dashboard interface.
 
-![Dashboard Preview](screenshots/dashboard.png)
+![image](https://github.com/user-attachments/assets/3635e517-dcdb-419d-8bfe-497e87a9297c)
+
 
 ## Live Demo
 - Frontend: [https://unlimited-cricket.vercel.app](https://unlimited-cricket.vercel.app/)
@@ -54,12 +55,11 @@ A scalable service that fetches and stores the latest YouTube videos based on se
 ## Architecture
 
 ### Data Flow Architecture
-![image](https://github.com/user-attachments/assets/f4fa4b41-5a30-411c-a881-38d6608f8d35)
-
-
+![image](https://github.com/user-attachments/assets/c35f26b4-3968-4506-83b0-a7ea4e8b2b19)
 
 ### Rate Limiting Architecture
-![image](https://github.com/user-attachments/assets/d5cf1b4d-258e-4747-a694-46e785c4b45b)
+![image](https://github.com/user-attachments/assets/da829a05-21a0-4141-a5a6-fe93b55f6a8a)
+
 
 
 ## Project Structure
@@ -107,7 +107,7 @@ YOUTUBE_API_KEY_3=your_key_3
 YOUTUBE_API_KEY_4=your_key_4
 YOUTUBE_API_KEY_5=your_key_5
 
-# time in minutes to fetch the data from youtube api 
+# youtube api is called after specified FETCH_TIME 
 FETCH_TIME = 4
 
 
@@ -181,20 +181,6 @@ Fetch stored videos with pagination
     ]
 }
 ```
-
-## Dashboard Screenshots
-
-### Home Page
-![Home Page](screenshots/home.png)
-The main dashboard interface showing recent videos and statistics.
-
-### Video List
-![Video List](screenshots/videos.png)
-Paginated list of videos with search and filter options.
-
-### Dark Mode
-![Dark Mode](screenshots/dark-mode.png)
-Dark mode interface for better visibility.
 
 ## Performance Optimizations
 
