@@ -11,7 +11,7 @@ var SearchQuery = "cricket"
 func (s *YoutubeService) StartBackgroundWorker(ctx context.Context) {
 
 	log.Println("background data fectcing....")
-	ticker := time.NewTicker(1 * time.Minute)
+	ticker := time.NewTicker(5 * time.Minute)
 	go func() {
 		for {
 			select {

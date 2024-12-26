@@ -71,6 +71,7 @@ func (c *YoutubeClient) createService() (*youtube.Service, error) {
 }
 
 func (c *YoutubeClient) rotateKey() error {
+
 	// 1. Put all potential API keys into a slice
 	keysList := []string{
 		c.keys.Key1,
@@ -131,7 +132,7 @@ func (c *YoutubeClient) SearchVideos(query string) ([]*youtube.SearchResult, err
 		Q(query).
 		Type("video").
 		Order("date").
-		PublishedAfter(time.Now().Add(-1 * time.Minute).Format(time.RFC3339)).
+		PublishedAfter(time.Now().Add(-5 * time.Minute).Format(time.RFC3339)).
 		MaxResults(50)
 
 	response, err := call.Do()
