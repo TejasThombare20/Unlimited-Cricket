@@ -1,3 +1,6 @@
+
+import React from "react";
+
 const EmptyState = () => (
   <div className="flex flex-col items-center justify-center p-8 text-center">
     <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">

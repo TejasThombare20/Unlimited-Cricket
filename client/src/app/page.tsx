@@ -1,10 +1,10 @@
+import React from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main className="h-full ">
-      {/* <Navigation /> */}
       <section className="h-full w-full pt-[200px] relative flex items-center justify-center flex-col gap-10">
         <div
           aria-label="true"
