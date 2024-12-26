@@ -5,6 +5,7 @@ import (
 	"TejasThombare20/fampay/model"
 	"TejasThombare20/fampay/repository"
 	"context"
+	"log"
 	"time"
 )
 
@@ -25,6 +26,8 @@ func (s *YoutubeService) FetchAndStoreVideos(query string) error {
 	if err != nil {
 		return err
 	}
+
+	log.Println("videos", videos)
 
 	for _, video := range videos {
 		// Convert to our model and store

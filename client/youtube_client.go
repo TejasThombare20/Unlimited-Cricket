@@ -126,14 +126,17 @@ func (c *YoutubeClient) rotateKey() error {
 }
 
 func (c *YoutubeClient) SearchVideos(query string) ([]*youtube.SearchResult, error) {
+	log.Println("api key", c.currentKey)
 	call := c.service.Search.List([]string{"id", "snippet"}).
 		Q(query).
 		Type("video").
 		Order("date").
-		PublishedAfter(time.Now().Add(-10 * time.Second).Format(time.RFC3339)).
+		PublishedAfter(time.Now().Add(-1 * time.Minute).Format(time.RFC3339)).
 		MaxResults(50)
 
 	response, err := call.Do()
+
+	println("response: ", response)
 	if err != nil {
 		// Check if error is due to quota exhaustion
 		if c.isQuotaExceeded(err) {
