@@ -20,6 +20,7 @@ func InitDB(connectionString string) (*sql.DB, error) {
 	}
 
 	// Create videos table if it doesn't exist
+	// also create  INDEX if it doesn't exist
 	_, err = db.Exec(`
         CREATE TABLE IF NOT EXISTS videos (
             id VARCHAR(255) PRIMARY KEY,

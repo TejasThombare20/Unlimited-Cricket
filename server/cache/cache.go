@@ -24,7 +24,7 @@ func NewVideoCache(redisURL string, cfg *config.Config) (*VideoCache, error) {
 
 	return &VideoCache{
 		client: redis.NewClient(opt),
-		ttl:    time.Minute * time.Duration(cfg.FetchTime), // Cache for 5 minutes
+		ttl:    time.Minute * time.Duration(cfg.FetchTime), // Cache for fetchtime(env variable) minutes
 	}, nil
 }
 
@@ -44,6 +44,7 @@ func (c *VideoCache) GetVideos(ctx context.Context, page, pageSize int) ([]model
 	return videos, true
 }
 
+// set the video cache into redis
 func (c *VideoCache) SetVideos(ctx context.Context, page, pageSize int, videos []model.Video) error {
 	key := c.getCacheKey(page, pageSize)
 	data, err := json.Marshal(videos)
@@ -63,6 +64,7 @@ func (c *VideoCache) InvalidateFirstPage(ctx context.Context) {
 	}
 }
 
+// cache key structure
 func (c *VideoCache) getCacheKey(page, pageSize int) string {
 	return fmt.Sprintf("videos:page:%d:size:%d", page, pageSize)
 }

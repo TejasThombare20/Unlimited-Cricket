@@ -23,13 +23,14 @@ func main() {
 
 	enviroment := os.Getenv("GO_ENVIROMENT")
 
+	//we don't need to explicitly load env file in production environment
 	if enviroment != "production" {
 		err := godotenv.Load()
 		if err != nil {
 			log.Fatal("Error loading .env file", err)
 		}
 	}
-
+	//loading all required  configs from environment variable
 	cfg, err := config.Load()
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
@@ -41,6 +42,7 @@ func main() {
 		log.Fatalf("Failed to create YouTube client: %v", err)
 	}
 
+	// Initalize the Postgres DB
 	db, err := config.InitDB(cfg.DatabaseURL)
 	if err != nil {
 		log.Fatal("Error while connecting with database : ", err)
@@ -49,24 +51,25 @@ func main() {
 
 	repo := repository.NewVideoRepository(db)
 
+	// Initialize the Redis server
 	videoCache, err := cache.NewVideoCache(cfg.RedisURL, cfg)
 	if err != nil {
 		log.Fatalf("Failed to connect to Redis: %v", err)
 	}
 
+	// Initialize YouTube service and controller with dependencies.
 	ytService := service.NewYoutubeService(ytClient, repo, videoCache)
-
 	ytController := controller.NewVideoController(ytService)
 
 	// Start background worker
 	ctx := context.Background()
 	ytService.StartBackgroundWorker(ctx, cfg)
 
-	rateLimiter := middleware.NewIPRateLimiter(rate.Limit(cfg.RPS), cfg.BurstTime)
-
 	router := gin.Default()
-
 	router.Use(cors.Default())
+
+	// Middleware for handling  Rate limiting
+	rateLimiter := middleware.NewIPRateLimiter(rate.Limit(cfg.RPS), cfg.BurstTime)
 	router.Use(rateLimiter.RateLimit())
 
 	route.SetupRoutes(router, ytController)

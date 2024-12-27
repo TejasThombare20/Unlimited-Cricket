@@ -6,6 +6,10 @@ import (
 	"sync"
 )
 
+// IP-based rate limiting
+// Token bucket algorithm
+// brust time : 10 Sec (default)
+// Retuest per second  : 5 Sec  (default)
 type IPRateLimiter struct {
 	ips map[string]*rate.Limiter
 	mu  *sync.RWMutex

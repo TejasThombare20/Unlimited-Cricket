@@ -44,7 +44,6 @@ func NewYoutubeClient(keys struct {
 			break
 		}
 	}
-
 	// 3. If no key is found, throw an error
 	if firstKey == "" {
 		return nil, errors.New("no API keys provided")
@@ -143,10 +142,12 @@ func (c *YoutubeClient) SearchVideos(query string, cfg *config.Config) ([]*youtu
 		// Check if error is due to quota exhaustion
 		if c.isQuotaExceeded(err) {
 			log.Printf("Quota exceeded for key: %s. Attempting to rotate key...", c.currentKey)
+
 			// Try rotating to next key
 			if rotateErr := c.rotateKey(); rotateErr != nil {
 				return nil, fmt.Errorf("quota exceeded and failed to rotate key: %v", rotateErr)
 			}
+
 			// Retry the search with new key
 			log.Printf("Retrying with new key: %s", c.currentKey)
 			return c.SearchVideos(query, cfg)
