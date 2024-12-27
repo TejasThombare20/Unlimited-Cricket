@@ -7,7 +7,7 @@ A scalable service that fetches and stores the latest YouTube videos based on se
 
 ## Live Demo
 - Frontend: [https://unlimited-cricket.vercel.app](https://unlimited-cricket.vercel.app/)
-- Backend API: [https://unlimited-cricket.onrender.com](https://unlimited-cricket.onrender.com)
+- Backend API: [https://unlimited-cricket.onrender.com](https://unlimited-cricket.onrender.com/api/v1/lists?page=1&page_size=20)
 
 ## Table of Contents
 - [Features](#features)
