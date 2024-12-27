@@ -2,12 +2,13 @@
 
 A scalable service that fetches and stores the latest YouTube videos based on search queries, featuring real-time updates and a modern dashboard interface.
 
-![Dashboard Preview](screenshots/dashboard.png)
+![image](https://github.com/user-attachments/assets/d3db2d26-96a0-49b6-9137-d6400a8b94e6)
+
 
 ## Live Demo
 - Frontend: [https://unlimited-cricket.vercel.app](https://unlimited-cricket.vercel.app/)
-- Backend API: [https://unlimited-cricket.onrender.com](https://unlimited-cricket.onrender.com)
-
+- Backend API: [https://unlimited-cricket.onrender.com](https://unlimited-cricket.onrender.com/api/v1/lists?page=1&page_size=20)
+- some time it may take time to respond due to free serverless deployement service please take it into consideration.
 ## Table of Contents
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -28,7 +29,10 @@ A scalable service that fetches and stores the latest YouTube videos based on se
 - ✅ Paginated API responses
 
 ### Dashboard Features
-![Search Interface](screenshots/search.png)
+![Search Interface](![image](https://github.com/user-attachments/assets/d90d4069-4a4d-490e-b2b0-38163b25865e)
+)
+![image](https://github.com/user-attachments/assets/e737129d-c51a-4b75-b98e-f260c70b9a8c)
+
 - Real-time video updates
 - Responsive design
 - Infinite Scrolling 
@@ -51,22 +55,12 @@ A scalable service that fetches and stores the latest YouTube videos based on se
 ## Architecture
 
 ### Data Flow Architecture
-
+![image](https://github.com/user-attachments/assets/c35f26b4-3968-4506-83b0-a7ea4e8b2b19)
 
 ### Rate Limiting Architecture
-```mermaid
-flowchart TD
-    A[Request] --> B[Extract IP]
-    B --> C{Check Rate Limiter}
-    C -->|Limit Not Exceeded| D[Process Request]
-    C -->|Limit Exceeded| E[429 Too Many Requests]
-    D --> F[Return Response]
-    
-    subgraph "Rate Limiter Details"
-    G[Token Bucket] -->|Refill Rate| H[5 tokens/second]
-    G -->|Burst Size| I[10 tokens max]
-    end
-```
+![image](https://github.com/user-attachments/assets/da829a05-21a0-4141-a5a6-fe93b55f6a8a)
+
+
 
 ## Project Structure
 ```
@@ -113,7 +107,7 @@ YOUTUBE_API_KEY_3=your_key_3
 YOUTUBE_API_KEY_4=your_key_4
 YOUTUBE_API_KEY_5=your_key_5
 
-# time in minutes to fetch the data from youtube api 
+# youtube api is called after specified FETCH_TIME 
 FETCH_TIME = 4
 
 
@@ -187,20 +181,6 @@ Fetch stored videos with pagination
     ]
 }
 ```
-
-## Dashboard Screenshots
-
-### Home Page
-![Home Page](screenshots/home.png)
-The main dashboard interface showing recent videos and statistics.
-
-### Video List
-![Video List](screenshots/videos.png)
-Paginated list of videos with search and filter options.
-
-### Dark Mode
-![Dark Mode](screenshots/dark-mode.png)
-Dark mode interface for better visibility.
 
 ## Performance Optimizations
 
